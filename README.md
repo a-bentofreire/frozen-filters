@@ -1,4 +1,5 @@
 ## Description
+[![Gem Version](https://badge.fury.io/rb/frozen-filters.svg)](https://badge.fury.io/rb/frozen-filters)  
   
 Liquid filters for shopify [liquid](https://github.com/shopify/liquid) template engine.  
 This ruby gem is a port of [frozen-filters-js](https://github.com/a-bentofreire/frozen-filters-js).

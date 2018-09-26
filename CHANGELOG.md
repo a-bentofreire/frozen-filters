@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.2.0] -
 ### Added
 - Add jekyllrb and installation information to README.md.
+- Add badge to README.md.
 
 
 ## [0.1.0] -
