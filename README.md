@@ -1,12 +1,15 @@
 ## Description
   
 Liquid filters for shopify [liquid](https://github.com/shopify/liquid) template engine.  
-This gem is a port of [frozen-filters-js](https://github.com/a-bentofreire/frozen-filters-js).
+This ruby gem is a port of [frozen-filters-js](https://github.com/a-bentofreire/frozen-filters-js).
 
-<!-- ## Installation
+## Installation
 `gem install frozen-filters`  
- -->
+
 ## Usage
+  
+Usage outside `jekyllrb`:  
+  
 ```ruby
 require 'liquid'
 require 'frozen-filters'
@@ -17,6 +20,22 @@ vars = {
 
 @template = Liquid::Template.parse('{{ url | remove_ext }}')
 @template.render(vars)  # http://www.example.com/first/second/index?param1=value1&param2=value2
+```
+  
+Usage within `jekyllrb`:  
+  
+- Add to blog `Gemfile`: 
+```ruby
+gem "frozen-filters", "~> 0.2.0"
+```
+- Add to `plugins` section of blog `_config.yml`: 
+```ruby
+  - frozen-filters
+```
+- Use the filters on any liquid page.
+e.g.
+```html
+{{ "/assets/main.css" | remove_ext }}
 ```
 
 ## Filters
