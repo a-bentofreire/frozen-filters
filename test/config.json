@@ -1,0 +1,90 @@
+{
+  "vars": {
+    "strValue": "strValue",
+    "strValue2": "Str_2_value",
+    "floatValue": 12.45,
+    "negativeValue": -12.45,
+    "arrayValues": ["first", "second", "third"],
+    "arrayValuesWithNull": ["first", "second", null, "third"],
+    "textWithSymbols": "Have you read 'James & the Giant Peach'?",
+    "localUrl": "/first/second/index.html",
+    "httpUrl": "http://www.foo.com/first/second/index.html",
+    "httpUrlLPP": "https://username:password@example.com:8080/first/second/index.html",
+    "httpUrlWithQs": "http://www.foo.com/first/second/index.html?param1=value1&param2=value2",
+    "zhHttpUrlWithQs": "http://吃.高雄/第一/第二/首頁.html?param1=value1&param2=value2"
+  },
+
+  "tests": {
+    "urls": {
+      "remove_ext": [{
+          "src": "{{ localUrl | remove_ext }}",
+          "result": "/first/second/index"
+        },
+        {
+          "src": "{{ httpUrlWithQs | remove_ext }}",
+          "result": "http://www.foo.com/first/second/index?param1=value1&param2=value2"
+        },
+        {
+          "src": "{{ httpUrlLPP | remove_ext }}",
+          "result": "https://username:password@example.com:8080/first/second/index"
+        },
+        {
+          "src": "{{ zhHttpUrlWithQs | remove_ext }}",
+          "result": "http://吃.高雄/第一/第二/首頁?param1=value1&param2=value2"
+        }
+      ],
+
+      "remove_qs": [{
+          "src": "{{ httpUrlWithQs | remove_qs }}",
+          "result": "http://www.foo.com/first/second/index.html"
+        },
+        {
+          "src": "{{ zhHttpUrlWithQs | remove_qs }}",
+          "result": "http://吃.高雄/第一/第二/首頁.html"
+        }
+      ],
+
+      "extract_basename": [{
+          "src": "{{ localUrl | extract_basename }}",
+          "result": "index.html"
+        },
+        {
+          "src": "{{ httpUrlWithQs | extract_basename }}",
+          "result": "index.html"
+        },
+        {
+          "src": "{{ httpUrlLPP | extract_basename }}",
+          "result": "index.html"
+        },
+        {
+          "src": "{{ zhHttpUrlWithQs | extract_basename }}",
+          "result": "首頁.html"
+        }
+      ],
+
+      "extract_dirname": [{
+          "src": "{{ localUrl | extract_dirname }}",
+          "result": "/first/second"
+        },
+        {
+          "src": "{{ httpUrlWithQs | extract_dirname }}",
+          "result": "/first/second"
+        },
+        {
+          "src": "{{ httpUrlLPP | extract_dirname }}",
+          "result": "/first/second"
+        },
+        {
+          "src": "{{ zhHttpUrlWithQs | extract_dirname }}",
+          "result": "/第一/第二"
+        }
+      ],
+
+      "extract_protocol": [{
+        "src": "{{ httpUrl | extract_protocol }}",
+        "result": "http"
+      }]
+
+    }
+  }
+}
