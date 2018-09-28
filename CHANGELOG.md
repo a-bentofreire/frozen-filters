@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.3.0] -
 ### Added
 - (DEV) Add test script.
+- (DEV) Add trevis support.
 
 
 ## [0.2.0] -
