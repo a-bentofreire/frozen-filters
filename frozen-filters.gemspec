@@ -7,8 +7,8 @@
 
 Gem::Specification.new do |s|
   s.name        = 'frozen-filters'
-  s.version     = '0.2.0'
-  s.date        = '2018-09-26'
+  s.version     = '0.3.0'
+  s.date        = '2018-09-30'
   s.summary     = "Liquid filters for shopify template engine"
   s.authors     = ["Alexandre Bento Freire"]
   s.email       = 'devpieces@a-bentofreire.com'
@@ -16,8 +16,7 @@ Gem::Specification.new do |s|
   s.license     = 'MIT+uuid'
   s.homepage    = 'https://github.com/a-bentofreire/frozen-filters'
   s.description = <<-EOF
-  frozen-filters adds filters for url processing to the liquid template engine.
-  Designed to be used with jekyll.
+  Liquid filters for shopify template engine. Designed to be used with jekyll.
 EOF
   s.add_runtime_dependency('liquid', ['~> 4.0'])
 end
