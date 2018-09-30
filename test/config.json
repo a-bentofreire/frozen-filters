@@ -4,14 +4,18 @@
     "strValue2": "Str_2_value",
     "floatValue": 12.45,
     "negativeValue": -12.45,
-    "arrayValues": ["first", "second", "third"],
+    "arrayValues": ["first", "second", "third", "forth", "fifth", "sixth"],
+    "array2Values": ["first", "second"],
     "arrayValuesWithNull": ["first", "second", null, "third"],
     "textWithSymbols": "Have you read 'James & the Giant Peach'?",
     "localUrl": "/first/second/index.html",
+    "localRootUrl": "/index.html",
     "httpUrl": "http://www.foo.com/first/second/index.html",
     "httpUrlLPP": "https://username:password@example.com:8080/first/second/index.html",
     "httpUrlWithQs": "http://www.foo.com/first/second/index.html?param1=value1&param2=value2",
-    "zhHttpUrlWithQs": "http://吃.高雄/第一/第二/首頁.html?param1=value1&param2=value2"
+    "httpUrlNoPathQs": "http://www.foo.com/index.html?param1=value1&param2=value2",
+    "zhHttpUrlWithQs": "http://吃.高雄/第一/第二/首頁.html?param1=value1&param2=value2",
+    "markerHttpUrlWithQs": "https://xn--jp-cd2fp15c.xn--fsq.jp/%E5%BC%95%E3%81%8D%E5%89%B2%E3%82%8A.html?param1=value1&param2=value2"
   },
 
   "tests": {
@@ -49,6 +53,10 @@
           "result": "index.html"
         },
         {
+          "src": "{{ localRootUrl | extract_basename }}",
+          "result": "index.html"
+        },
+        {
           "src": "{{ httpUrlWithQs | extract_basename }}",
           "result": "index.html"
         },
@@ -57,14 +65,26 @@
           "result": "index.html"
         },
         {
+          "src": "{{ httpUrlNoPathQs | extract_basename }}",
+          "result": "index.html"
+        },
+        {
           "src": "{{ zhHttpUrlWithQs | extract_basename }}",
           "result": "首頁.html"
+        },
+        {
+          "src": "{{ markerHttpUrlWithQs | extract_basename }}",
+          "result": "%E5%BC%95%E3%81%8D%E5%89%B2%E3%82%8A.html"
         }
       ],
 
       "extract_dirname": [{
           "src": "{{ localUrl | extract_dirname }}",
           "result": "/first/second"
+        },
+        {
+          "src": "{{ localRootUrl | extract_dirname }}",
+          "result": "/"
         },
         {
           "src": "{{ httpUrlWithQs | extract_dirname }}",
@@ -77,14 +97,126 @@
         {
           "src": "{{ zhHttpUrlWithQs | extract_dirname }}",
           "result": "/第一/第二"
+        },
+        {
+          "src": "{{ httpUrlNoPathQs | extract_dirname }}",
+          "result": "/"
+        },
+        {
+          "src": "{{ markerHttpUrlWithQs | extract_dirname }}",
+          "result": "/"
+        }
+      ],
+
+      "extract_path": [{
+          "src": "{{ localUrl | extract_path }}",
+          "result": "/first/second/index.html"
+        },
+        {
+          "src": "{{ localRootUrl | extract_path }}",
+          "result": "/index.html"
+        },
+        {
+          "src": "{{ httpUrlWithQs | extract_path }}",
+          "result": "/first/second/index.html"
+        },
+        {
+          "src": "{{ httpUrlLPP | extract_path }}",
+          "result": "/first/second/index.html"
+        },
+        {
+          "src": "{{ zhHttpUrlWithQs | extract_path }}",
+          "result": "/第一/第二/首頁.html"
+        },
+        {
+          "src": "{{ httpUrlNoPathQs | extract_path }}",
+          "result": "/index.html"
+        },
+        {
+          "src": "{{ markerHttpUrlWithQs | extract_path }}",
+          "result": "/%E5%BC%95%E3%81%8D%E5%89%B2%E3%82%8A.html"
         }
       ],
 
       "extract_protocol": [{
-        "src": "{{ httpUrl | extract_protocol }}",
-        "result": "http"
-      }]
+          "src": "{{ httpUrl | extract_protocol }}",
+          "result": "http"
+        },
+        {
+          "src": "{{ localUrl | extract_protocol }}",
+          "result": ""
+        }
+      ],
 
+      "extract_qs": [{
+          "src": "{{ httpUrlWithQs | extract_qs }}",
+          "result": "param1=value1&param2=value2"
+        },
+        {
+          "src": "{{ httpUrl | extract_qs }}",
+          "result": ""
+        },
+        {
+          "src": "{{ localUrl | extract_qs }}",
+          "result": ""
+        },
+        {
+          "src": "{{ markerHttpUrlWithQs | extract_qs }}",
+          "result": "param1=value1&param2=value2"
+        }
+      ]
+
+    },
+
+    "arrays": {
+      "array_head": [
+        {
+          "src": "{{ arrayValues | array_head: -2 }}",
+          "result": ""
+        },
+        {
+          "src": "{{ arrayValues | array_head: 2 }}",
+          "result": "firstsecond"
+        },
+        {
+          "src": "{{ arrayValues | array_head: 10 }}",
+          "result": "firstsecondthirdforthfifthsixth"
+        },
+        {
+          "src": "{{ floatValue | array_head: 10 }}",
+          "result": "12.45"
+        }
+      ],
+
+      "array_tail": [
+        {
+          "src": "{{ arrayValues | array_tail: -2 }}",
+          "result": ""
+        },
+        {
+          "src": "{{ arrayValues | array_tail: 2 }}",
+          "result": "fifthsixth"
+        },
+        {
+          "src": "{{ arrayValues | array_tail: 10 }}",
+          "result": "firstsecondthirdforthfifthsixth"
+        },
+        {
+          "src": "{{ floatValue | array_tail: 10 }}",
+          "result": "12.45"
+        }
+      ],
+
+      "array_to_taglist": [
+      {
+        "src": "{{ array2Values | array_to_taglist: \"li\" }}",
+        "result": "<li>first</li>\n<li>second</li>"
+      },
+      {
+        "src": "{{ floatValue | array_to_taglist: 10 }}",
+        "result": "12.45"
+      }
+    ]
     }
   }
 }

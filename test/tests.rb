@@ -24,17 +24,20 @@ groups.keys.each{ |groupName|
     puts '--Test: ' + testName
 
     test.each{ |caseObj|
-      src = caseObj['src']
-      expected = caseObj['result']
-      puts "- - - " + src + "=" + expected
-      @template = Liquid::Template.parse(src)  # Parses and compiles the template
-      result = @template.render(vars)
-      puts "-- -- -- " + result
-      if expected != result
-        puts 'FAILED'
-        throw 'FAILED: Group: `' + groupName + '` Test: `' + testName + '` src: `' + src + '`'
+      enabled = caseObj['enabled']
+      if enabled != false
+        src = caseObj['src']
+        expected = caseObj['result']
+        puts "- - - " + src + "=" + expected
+        @template = Liquid::Template.parse(src)  # Parses and compiles the template
+        result = @template.render(vars)
+        puts "-- -- -- " + result
+        if expected != result
+          puts 'FAILED'
+          throw 'FAILED: Group: `' + groupName + '` Test: `' + testName + '` src: `' + src + '`'
+        end
+        puts ''
       end
-      puts ''
     }
   }
 }

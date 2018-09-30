@@ -25,25 +25,66 @@ module FrozenFilters
     input.to_s.gsub(/^.*\/([^\/\?]+).*$/, '\1')
   end
 
-  # Returns the dirname of an url. e.g. `first/second`.
+  # Returns the dirname of an url. e.g. `/first/second`.
   def extract_dirname(input)
+    result = extract_path(input).gsub(/\/[^\/]+$/, '')
+    result != "" ? result : "/"
+  end
+
+  # Returns the path of an url. e.g. `/first/second/index.html`.
+  def extract_path(input)
     input_s = input.to_s
     if /^(\w+):/.match(input_s)
-      input_s.gsub(/^\w+:[^\/]*\/\/[^\/]+(\/[^\?]+)\/.*$/, '\1')
+      input_s.gsub(/^\w+:[^\/]*\/\/[^\/]+(\/[^\?]+)(?:\?.*)?$/, '\1')
     else
-      input_s.gsub(/\/[^\/]+$/, '')
+      input_s.gsub(/(?:\?.*)$/, '')
     end
   end
 
   # Returns the protocol. e.g. `http`.
   def extract_protocol(input)
     matches = input.to_s.match(/^(\w+):/)
-    if matches
-      matches[1]
+    matches ? matches[1] : ""
+  end
+
+  # Returns the query string part. e.g. `param1=value1&param2=value2`.
+  def extract_qs(input)
+    input.to_s.gsub(/^[^\?]*\??/, '\1')
+  end
+
+  # Returns the first N elements of an array.
+  # e.g. `{{ ["first","second","third"] | array_head: 2 }}` =~ `["first","second"]`.
+  # If the number of parameters is negative it returns an empty array.
+  # The the input isn't an array it returns the untouched input.
+  def array_head(input, p)
+    input.kind_of?(Array) ? input.take([0, p.to_i].max) : input
+  end
+
+  # Returns the last N elements of an array.
+  # e.g. `{{ ["first","second","third"] | array_tail: 2 }}` =~ `["second","third"]`.
+  # If the number of parameters is negative it returns an empty array.
+  # The the input isn't an array it returns the untouched input.
+  def array_tail(input, p)
+    input.kind_of?(Array) ? input.drop([0, input.length - p.to_i].max) : input
+  end
+
+  # Transforms an array into an enclose html tag list separated by newline.
+  # e.g. `{{ ["first","second" | array_to_taglist: "li" }}` =~
+  # ```html
+  # <li>first</li>
+  # <li>second</li>
+  # ```
+  # The the input isn't an array it returns the untouched input.
+  def array_to_taglist(input, p)
+    if input.kind_of?(Array) && p.kind_of?(String)
+      startTag = "<" + p + ">"
+      endTag = "</" + p + ">"
+      input.length != 0 ? startTag + input.join(endTag + "\n" + startTag) + endTag : ""
     else
-      ""
+      input
     end
   end
+
 end
 
 Liquid::Template.register_filter(FrozenFilters)

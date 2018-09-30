@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - (DEV) Add test script.
 - (DEV) Add trevis support.
+- (DEV) Add support for `enabled:false` in a test case.
+- Add `extract_path` and `extract_qs` filters.
+- Add `array_head`, `array_tail` and `array_to_taglist` filters.
+
+### Fixed
+- Fix `extract_dirname` when it's only `/index.html`.
 
 
 ## [0.2.0] -
