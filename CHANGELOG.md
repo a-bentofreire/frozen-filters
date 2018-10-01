@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [0.3.1] -
 - (DEV) Update code with rubocop formatter.
+- (DEV) Port test execution to rake.
+
 
 ## [0.3.0] -
 ### Added

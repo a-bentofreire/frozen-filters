@@ -1,6 +1,6 @@
 language: ruby
 rvm:
 - 2.5.1
-install: gem install liquid && gem install json
+install: gem install rake && gem install liquid && gem install json
 script:
-  - ./test.sh
+  - rake
