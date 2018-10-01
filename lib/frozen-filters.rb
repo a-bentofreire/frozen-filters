@@ -8,7 +8,6 @@
 require 'liquid'
 
 module FrozenFilters
-
   # Removes the extension part of an url.
   # e.g. `http://www.example.com/first/second/index?param1=value1&param2=value2`.
   def remove_ext(input)
@@ -28,7 +27,7 @@ module FrozenFilters
   # Returns the dirname of an url. e.g. `/first/second`.
   def extract_dirname(input)
     result = extract_path(input).gsub(/\/[^\/]+$/, '')
-    result != "" ? result : "/"
+    result != '' ? result : '/'
   end
 
   # Returns the path of an url. e.g. `/first/second/index.html`.
@@ -44,7 +43,7 @@ module FrozenFilters
   # Returns the protocol. e.g. `http`.
   def extract_protocol(input)
     matches = input.to_s.match(/^(\w+):/)
-    matches ? matches[1] : ""
+    matches ? matches[1] : ''
   end
 
   # Returns the query string part. e.g. `param1=value1&param2=value2`.
@@ -57,7 +56,7 @@ module FrozenFilters
   # If the number of parameters is negative it returns an empty array.
   # The the input isn't an array it returns the untouched input.
   def array_head(input, p)
-    input.kind_of?(Array) ? input.take([0, p.to_i].max) : input
+    input.is_a?(Array) ? input.take([0, p.to_i].max) : input
   end
 
   # Returns the last N elements of an array.
@@ -65,7 +64,7 @@ module FrozenFilters
   # If the number of parameters is negative it returns an empty array.
   # The the input isn't an array it returns the untouched input.
   def array_tail(input, p)
-    input.kind_of?(Array) ? input.drop([0, input.length - p.to_i].max) : input
+    input.is_a?(Array) ? input.drop([0, input.length - p.to_i].max) : input
   end
 
   # Transforms an array into an enclose html tag list separated by newline.
@@ -76,15 +75,14 @@ module FrozenFilters
   # ```
   # The the input isn't an array it returns the untouched input.
   def array_to_taglist(input, p)
-    if input.kind_of?(Array) && p.kind_of?(String)
-      startTag = "<" + p + ">"
-      endTag = "</" + p + ">"
-      input.length != 0 ? startTag + input.join(endTag + "\n" + startTag) + endTag : ""
+    if input.is_a?(Array) && p.is_a?(String)
+      startTag = '<' + p + '>'
+      endTag = '</' + p + '>'
+      !input.empty? ? startTag + input.join(endTag + "\n" + startTag) + endTag : ''
     else
       input
     end
   end
-
 end
 
 Liquid::Template.register_filter(FrozenFilters)

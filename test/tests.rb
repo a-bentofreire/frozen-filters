@@ -15,29 +15,29 @@ vars = cfg['vars']
 
 groups = cfg['tests']
 
-groups.keys.each{ |groupName|
-   group = groups[groupName]
-   puts 'Group: ' + groupName
+groups.keys.each do |groupName|
+  group = groups[groupName]
+  puts 'Group: ' + groupName
 
-   group.keys.each{ |testName|
+  group.keys.each  do |testName|
     test = group[testName]
     puts '--Test: ' + testName
 
-    test.each{ |caseObj|
+    test.each do |caseObj|
       enabled = caseObj['enabled']
-      if enabled != false
-        src = caseObj['src']
-        expected = caseObj['result']
-        puts "- - - " + src + "=" + expected
-        @template = Liquid::Template.parse(src)  # Parses and compiles the template
-        result = @template.render(vars)
-        puts "-- -- -- " + result
-        if expected != result
-          puts 'FAILED'
-          throw 'FAILED: Group: `' + groupName + '` Test: `' + testName + '` src: `' + src + '`'
-        end
-        puts ''
+      next unless enabled != false
+
+      src = caseObj['src']
+      expected = caseObj['result']
+      puts '- - - ' + src + '=' + expected
+      @template = Liquid::Template.parse(src) # Parses and compiles the template
+      result = @template.render(vars)
+      puts '-- -- -- ' + result
+      if expected != result
+        puts 'FAILED'
+        throw 'FAILED: Group: `' + groupName + '` Test: `' + testName + '` src: `' + src + '`'
       end
-    }
-  }
-}
+      puts ''
+    end
+  end
+end
